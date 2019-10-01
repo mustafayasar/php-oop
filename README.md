@@ -482,27 +482,163 @@ echo $say_something->hello()->universe();
     Hello World! 
     Hello Universe!
 ```
+##Overloading
+Overloading, sınıflar içerisinde dinamik olarak method ve değişken oluşturmaya yarayan bir sihirli fonksiyonlar işlemidir.
 
+Bunu iki alt başlıkta inceleyeceğiz;
+
+### Property Overloading
+__set(), __get(), __isset(), __unset() sihirli fonksiyonları ile kullanılır.
+
+__set($name, $value); bir değişkene değer atanmak istendiği zaman çalışır..
+
+__get($name); bir değişken çağırıldığı zaman çalışır.
+
+__isset($name); bir değişken 'isset' edildiği zaman çalışır.
+
+__unset($name); bir değişken 'unset' edildiği zaman çalışır.
 
 ```php
+class Data
+{
+    private $datas = [];
+
+    // Sınıfa ait bir değişken (property) set edilmek istendiğinde çalışır.
+    public function __set($name, $value) {
+        echo "#log: $name isminde bir değişken tanımlandı. \n";
+
+        $this->datas[$name] = $value;
+    }
+
+    // Sınıfa ait bir değişken (property) çağrıldığında çalışır.
+    public function __get($name) {
+        echo "#log: $name isminde bir değişken çağırıldı. \n";
+
+        return $this->datas[$name];
+    }
+
+    // Sınıfa ait bir değişken (property) isset edildiğinde.
+    public function __isset($name) {
+        echo "#log: $name isminde bir değişkenin varlığı sorgulandı. \n";
+
+        return isset($this->datas[$name]);
+    }
+
+    // Sınıfa ait bir değişken (property) silindiğinde.
+    public function __unset($name) {
+        echo "#log: $name isminde bir değişkenin varlığı silindi. \n";
+
+        unset($this->datas[$name]);
+    }
+}
 ```
 
+Örneğimizde görüşdüğü üzere aslında Data sınıfı name, surname gibi değişkenlere sahip değildir.
+Fakat biz bunları overloading sihirli fonksiyonları sayesinde dinamik olarak oluşturabiliyoruz.
+Bu yöntem sayesinde çok farklı ve dinamik sınıflar tanımlayabilirsiniz. 
+Örneğin değişkenleri cache sistemine yazabilir ve okuyabilirsiniz gibi.
+
 ```php
+$data           = new Data();
+$data->name     = 'Mustafa';
+$data->surname  = 'Yaşar';
+
+echo 'Ad Soyad: '.$data->name.' '.$data->surname." \n";
+
+if (!isset($data->age)) {
+    echo "Yaş bilgisi yok. \n";
+}
+
+unset($data->surname);
+```
+
+Çıktıda gözükmesini istediğimiz log kayıtları, hangi fonksiyonun ne aşamada çalıştığınız görmeniz için faydalı.
+
+```result
+    #log: name isminde bir değişken tanımlandı. 
+    #log: surname isminde bir değişken tanımlandı. 
+    #log: name isminde bir değişken çağırıldı. 
+    #log: surname isminde bir değişken çağırıldı. 
+    Ad Soyad: Mustafa Yaşar 
+    #log: age isminde bir değişkenin varlığı sorgulandı. 
+    Yaş bilgisi yok. 
+    #log: surname isminde bir değişkenin varlığı silindi. 
+```
+
+### Method Overloading
+Bir sınıfa ait dinamik bir şekilde metod çağırabilmek için sihirli fonksiyonlar ile kullanılan bir yöntemdir.
+__call() normal fonksiyonlar için, __callStatic static fonksiyonlar için kullanılır.
+İki fonksiyonda $name ve $arguments parametlerini alır. 
+$name çağırılan metodun adını, $arguments metodu çağırırken kullanılan parametleri dizi şeklinde alır.
+
+```php
+class MethodOverloading
+{
+    public function __call($name, $arguments)
+    {
+        if ($name == 'sayHello') {
+            echo 'Hello, ' .implode(', ', $arguments). "\n";
+        } elseif ($name == 'sayBye') {
+            echo 'Goodbye ' .implode(', ', $arguments). "\n";
+        } else {
+            echo "Method Bulunamadı.\n";
+        }
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        if ($name == 'sayHello') {
+            echo 'Hello, ' .implode(', ', $arguments). "\n";
+        } elseif ($name == 'sayBye') {
+            echo 'Goodbye ' .implode(', ', $arguments). "\n";
+        } else {
+            echo "Method Bulunamadı.\n";
+        }
+    }
+}
+```
+
+Örneğimizde görüleceği üzere, aslında var olmayan sayHello(), sayBye() metodlarını sihirli yöntemler ile çağırabiliyoruz.
+saySomething() metodunu özellikle çağırdım, sihirli fonksiyonlar içerisinde karşılığı yok ve else kısmına düşüyor.
+
+** Eğer sayHello() diye bir metodumuz olsaydı, siz sayHello'yı çağırdığınızda o çağırılırdı, _call() sihirli fonksiyonunu çağırmazdı.
+Çağırdığımız metod var olmayınca oraya gidiyor.
+
+```php
+$obj = new MethodOverloading;
+$obj->saySomething('Mustafa');
+
+$obj->sayHello('Mustafa');
+
+MethodOverloading::sayBye('Mustafa');
 ```
 
 ```result
+    Method Bulunamadı.
+    Hello, Mustafa
+    Goodbye Mustafa
 ```
 
-```php
-```
-
-```php
-```
-
-```result
-```
+##Object Cloning And Copying (Nesne Klonlama ve Kopyalama)
 
 
+##Final Keyword
+https://www.php.net/manual/en/language.oop5.final.php
+
+##Object Iteration
+https://www.php.net/manual/en/language.oop5.iterations.php
+
+##Comparing Objects
+https://www.php.net/manual/en/language.oop5.object-comparison.php
+
+##Magic Methods (Sihirli Metodlar)
+PHP OOP yapısı içerisinde bir çok sihirli metod denilen metodlar bulunmaktadır.
+Bunların önemli olanlarını [aa](Constructors and Destructors) ve [aa](Overloading) başlıkları altında işledik.
+Bunların haricinde de çeşitli sihirli metodlar var. Hepsini teker teker işlemenin gerekli olmadığını düşündüm.
+Siz isterseniz [https://www.php.net/manual/en/language.oop5.magic.php]() sayfasından göz atabilirsiniz.
+
+
+##NameSpaces
 
 Yararlanılan Kaynaklar
 [https://www.php.net/manual/en/language.oop5.php]()

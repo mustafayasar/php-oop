@@ -7,11 +7,11 @@ class ClassC
     }
 
     function hello() {
-        echo "Hello\n";
+        echo "Hello! \n";
     }
 
     function __destruct() {
-        echo "ClassC is removing from RAM.\n";
+        echo "ClassC is removing from RAM. \n";
     }
 }
 
