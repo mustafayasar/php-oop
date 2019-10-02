@@ -2,12 +2,16 @@
 
 class ClassC
 {
-    function __construct() {
-        print "ClassC is created \n";
+    public $name = '';
+
+    function __construct($name) {
+        $this->name = $name;
+
+        echo "ClassC is created \n";
     }
 
     function hello() {
-        echo "Hello! \n";
+        echo "Hello, ".$this->name."! \n";
     }
 
     function __destruct() {
@@ -16,7 +20,7 @@ class ClassC
 }
 
 
-$c = new ClassC();
+$c = new ClassC('Mustafa');
 
 $c->hello();
 
@@ -25,6 +29,6 @@ $c->hello();
 
 /**
 ClassC is created
-Hello
+Hello, Mustafa!
 ClassC is removing from RAM.
  */

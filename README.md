@@ -1,18 +1,22 @@
 # PHP OOP (Object Oriented Programming)
-Türkçe'ye Nesne Yönelimli Programlama diye çevrilen OOP PHP dünyasına PHP 5 ile birlikte girmiştir.
-PHP 7 ile birlikte birçok şeyi geliştirilmiş, ve modern bir yapı haline gelmiştir. 
+Türkçe'ye Nesne Yönelimli Programlama diye çevrilen OOP, PHP dünyasına PHP 5 ile birlikte girmiştir.
+PHP 7 ile birlikte ise bir çok şey geliştirilmiş, ve modern bir yapı haline gelmiştir. 
 Ben bu gibi detaylara girmeyeceğim, PHP 7'ye göre örneklerle anlatacağım. 
 
-[Design Pattern](https://github.com/mustafayasar/php-design-patterns) örnekleri paylaştıktan sonra hiç bilmeyenler için OOP konusuna da değinemenin iyi olacağını düşündüm.
-Basit konuları hızlı geçip, bir çok örnekle konuyu zenginleştirmeyi planlıyorum.
+[Design Patterns (Tasarım Desenleri)](https://github.com/mustafayasar/php-design-patterns) konusunu örneklerle paylaştıktan sonra hiç bilmeyenler için OOP konusuna da değinemenin iyi olacağını düşündüm.
+Basit konuları hızlı geçip, örneklerle zenginleştirmeyi planlıyorum.
 
 Şimdi başlıklar ve örnekler ile bu konuyu işleyelim.
 
+* Başlamadan önce şunu belirtmek isterim ki; 
+Yazılım dünyasındaki bazı terimlerin Türkçe karşılıklarını yazmak çoğu zaman sorun oluyor. 
+Ya çeviri yetersiz kalıyor, ya da bir kaç farklı karşılık bulabiliyor.
+Ben elimden geldiğince ülkemizdeki en genel kullanımları -bazen Türkçe, bazen İngilizce- kullacağım.
 
-## Basic
+## Başlangıç
 Bir sınıf tanımlarken örnekte göründüğü üzere **class** tanımlamasını kullanıyoruz.
-Sınıfa ait değişkenleri ve metodları örnekte görüldüğü şekilde oluşturuyoruz. 
-Normal bir değişken ve function oluşturmaktan tek farkı başında **public** tanımlaması.
+Sınıfa ait değişkenleri ve metodları da örnekte görüldüğü şekilde oluşturuyoruz. 
+Normal bir değişken ve metod oluşturmaktan tek farkı başında **public** tanımlaması.
 Bir kaç başlık aşağıda bunun ne anlama geldiğini göreceğiz. O zamana kadar **public** gördüğünüz yerlere takılmayın.
 
 ```php
